@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import BrandLogo from './BrandLogo';
 
 export default function Footer() {
   return (
@@ -9,13 +9,7 @@ export default function Footer() {
           href="https://esalab.es/"
           className="flex items-center mb-4 sm:mb-0"
         >
-          <Image
-            src="https://esalab.es/wp-content/uploads/2019/07/logo_horizontal.svg"
-            className="mr-3 h-8"
-            alt="ESALab Logo"
-            width={200}
-            height={200}
-          />
+          <BrandLogo />
         </Link>
         <ul className="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
           <li>
