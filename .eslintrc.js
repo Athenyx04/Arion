@@ -16,5 +16,5 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
-  rules: { 'react/jsx-props-no-spreading': 'warn' },
+  rules: { 'react/jsx-props-no-spreading': 'warn', 'global-require': 0 },
 };

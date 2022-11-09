@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import Footer from './Footer';
-import Navbar from './Navbar';
+import UserNavbar from './UserNavbar';
 
 export default function Layout({ children }) {
   return (
     <div>
-      <Navbar />
+      <UserNavbar />
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
