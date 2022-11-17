@@ -1,11 +1,14 @@
 import '../styles/globals.css';
 import { AuthContextProvider } from '../context/AuthContext';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthContextProvider>
-      <Component {...pageProps} />;
-    </AuthContextProvider>
+    <ErrorBoundary>
+      <AuthContextProvider>
+        <Component {...pageProps} />;
+      </AuthContextProvider>
+    </ErrorBoundary>
   );
 }
 

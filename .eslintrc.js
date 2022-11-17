@@ -16,5 +16,13 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
-  rules: { 'react/jsx-props-no-spreading': 'warn', 'global-require': 0 },
+  rules: {
+    'react/jsx-props-no-spreading': 0,
+    'global-require': 0,
+    'react/destructuring-assignment': [
+      1,
+      'always',
+      { ignoreClassFields: true },
+    ],
+  },
 };
