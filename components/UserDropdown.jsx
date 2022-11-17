@@ -1,14 +1,25 @@
 import { Menu, Transition } from '@headlessui/react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAuth } from '../context/AuthContext';
 
 export default function UserDropdown() {
+  const { user, logOut } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
           <Image
-            src="https://avatars.dicebear.com/api/personas/esalab.svg"
+            src={`https://avatars.dicebear.com/api/personas/${user.uid}.svg`}
             className="w-8 h-8 rounded-full"
             alt="Ajustes de usuario"
             width={32}
@@ -30,10 +41,10 @@ export default function UserDropdown() {
             <Menu.Item disabled>
               <div>
                 <span className="block text-sm text-gray-900 dark:text-white">
-                  Manuel Calvo
+                  {user.uid}
                 </span>
                 <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">
-                  manucalvom@gmail.com
+                  {user.email}
                 </span>
               </div>
             </Menu.Item>
@@ -42,6 +53,7 @@ export default function UserDropdown() {
             <Menu.Item>
               <Link
                 href="/"
+                onClick={handleLogout}
                 className="block px-4 py-2 text-sm hover:bg-red-600 hover:text-white transition-colors rounded"
               >
                 Cerrar sesión
