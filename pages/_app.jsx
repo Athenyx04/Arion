@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ErrorBoundary>
       <AuthContextProvider>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </AuthContextProvider>
     </ErrorBoundary>
   );

@@ -12,5 +12,5 @@ export default function AlreadyLogged({ children }) {
     }
   }, [router, user]);
 
-  return <div>{user ? children : null}</div>;
+  return <div>{!user ? children : null}</div>;
 }
