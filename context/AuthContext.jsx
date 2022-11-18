@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import Loading from '../components/Loading';
@@ -17,10 +18,6 @@ export function AuthContextProvider({ children }) {
     () =>
       auth.onIdTokenChanged(async (user) => {
         if (!user) {
-<<<<<<< HEAD
-=======
-          console.log('no user');
->>>>>>> 09291bd2dda3fae3345e809c5e2f0baa0a54cead
           setCurrentUser(null);
           setLoading(false);
           return;
@@ -33,15 +30,25 @@ export function AuthContextProvider({ children }) {
     []
   );
 
-  const signUp = (email, password) =>
-    createUserWithEmailAndPassword(auth, email, password);
+  const signUp = (email, password, name) =>
+    createUserWithEmailAndPassword(auth, email, password).then(() => {
+      updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: `https://avatars.dicebear.com/api/personas/${auth.currentUser.uid}.svg`,
+      });
+    });
 
   const logIn = (email, password) =>
     signInWithEmailAndPassword(auth, email, password);
 
-  const logOut = async () => {
-    await signOut(auth);
-    setCurrentUser(null);
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        setCurrentUser(null);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   if (loading) {
@@ -49,10 +56,7 @@ export function AuthContextProvider({ children }) {
   }
 
   return (
-<<<<<<< HEAD
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-=======
->>>>>>> 09291bd2dda3fae3345e809c5e2f0baa0a54cead
     <AuthContext.Provider value={{ currentUser, signUp, logIn, logOut }}>
       {children}
     </AuthContext.Provider>

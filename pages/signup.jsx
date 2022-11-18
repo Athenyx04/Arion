@@ -21,7 +21,7 @@ export default function Signup() {
 
   const onSubmit = async (data) => {
     try {
-      await signUp(data.email, data.password);
+      await signUp(data.email, data.password, data.name);
       router.push('/dashboard');
     } catch (error) {
       console.error(error.message);
@@ -65,7 +65,10 @@ export default function Signup() {
             </p>
           </div>
 
-          {(errors.email || errors.password || errors.password_confirm) && (
+          {(errors.email ||
+            errors.password ||
+            errors.password_confirm ||
+            errors.name) && (
             <div className="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 items-center">
               <svg
                 aria-hidden="true"
@@ -110,7 +113,8 @@ export default function Signup() {
                     )) ||
                     (errors.password_confirm && (
                       <div>{errors.password_confirm.message}</div>
-                    ))}
+                    )) ||
+                    (errors.name && <div>{errors.name.message}</div>)}
                 </span>
               </div>
             </div>
@@ -123,6 +127,27 @@ export default function Signup() {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="space-y-0">
+                <div>
+                  <label htmlFor="name">
+                    <p className="sr-only">Nombre completo</p>
+                    <input
+                      id="name"
+                      type="text"
+                      autoComplete="name"
+                      {...register('name', {
+                        required: 'El nombre es obligatorio.',
+                        maxLength: {
+                          value: 256,
+                          message:
+                            'El nombre no puede superar los 256 caracteres.',
+                        },
+                      })}
+                      className="relative block w-full rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      placeholder="Nombre completo"
+                    />
+                  </label>
+                </div>
+
                 <div>
                   <label htmlFor="email-address">
                     <p className="sr-only">Dirección de correo electrónico</p>
@@ -138,7 +163,7 @@ export default function Signup() {
                             'El formato de correo electrónico no es válido.',
                         },
                       })}
-                      className="relative block w-full rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="relative block w-full border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       placeholder="Correo electrónico"
                     />
                   </label>

@@ -8,7 +8,8 @@ export default function ProtectedRoute({ children }) {
 
   useEffect(() => {
     if (!currentUser) {
-      router.push('/login');
+      // Replace en lugar de push porque no tiene sentido almacenar al historial una página a la que no tienes acceso
+      router.replace('/login');
     }
   }, [router, currentUser]);
 
