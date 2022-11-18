@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import AlreadyLogged from '../components/AlreadyLogged';
@@ -10,7 +9,6 @@ import { useAuth } from '../context/AuthContext';
 export default function Login() {
   const methods = useForm({ mode: 'onBlur' });
   const { logIn } = useAuth();
-  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(false);
 
   const { register, handleSubmit } = methods;
@@ -18,7 +16,6 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       await logIn(data.email, data.password);
-      router.push('/dashboard');
     } catch (error) {
       console.error(error.message);
       setErrorMessage(true);

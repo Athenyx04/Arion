@@ -19,7 +19,11 @@ export default function UserDropdown() {
       <div>
         <Menu.Button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
           <Image
-            src={currentUser.photoURL}
+            src={
+              currentUser.photoURL
+                ? currentUser.photoURL
+                : `https://avatars.dicebear.com/api/personas/${currentUser.uid}.svg`
+            }
             className="w-8 h-8 rounded-full"
             alt="Ajustes de usuario"
             width={32}
@@ -52,7 +56,7 @@ export default function UserDropdown() {
           <div className="py-1">
             <Menu.Item>
               <Link
-                href="/"
+                href="/login"
                 onClick={handleLogout}
                 className="block px-4 py-2 text-sm hover:bg-red-600 hover:text-white transition-colors rounded"
               >

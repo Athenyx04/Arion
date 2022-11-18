@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import AlreadyLogged from '../components/AlreadyLogged';
@@ -10,7 +9,6 @@ import { useAuth } from '../context/AuthContext';
 export default function Signup() {
   const methods = useForm({ mode: 'onBlur' });
   const { signUp } = useAuth();
-  const router = useRouter();
 
   const {
     register,
@@ -22,7 +20,6 @@ export default function Signup() {
   const onSubmit = async (data) => {
     try {
       await signUp(data.email, data.password, data.name);
-      router.push('/dashboard');
     } catch (error) {
       console.error(error.message);
     }
