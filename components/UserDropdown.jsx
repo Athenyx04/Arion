@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 
 export default function UserDropdown() {
-  const { user, logOut } = useAuth();
+  const { currentUser, logOut } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -19,7 +19,7 @@ export default function UserDropdown() {
       <div>
         <Menu.Button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
           <Image
-            src={`https://avatars.dicebear.com/api/personas/${user.uid}.svg`}
+            src={`https://avatars.dicebear.com/api/personas/${currentUser.uid}.svg`}
             className="w-8 h-8 rounded-full"
             alt="Ajustes de usuario"
             width={32}
@@ -41,10 +41,10 @@ export default function UserDropdown() {
             <Menu.Item disabled>
               <div>
                 <span className="block text-sm text-gray-900 dark:text-white">
-                  {user.uid}
+                  {currentUser.uid}
                 </span>
                 <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">
-                  {user.email}
+                  {currentUser.email}
                 </span>
               </div>
             </Menu.Item>
