@@ -17,6 +17,10 @@ export function AuthContextProvider({ children }) {
     () =>
       auth.onIdTokenChanged(async (user) => {
         if (!user) {
+<<<<<<< HEAD
+=======
+          console.log('no user');
+>>>>>>> 09291bd2dda3fae3345e809c5e2f0baa0a54cead
           setCurrentUser(null);
           setLoading(false);
           return;
@@ -45,7 +49,10 @@ export function AuthContextProvider({ children }) {
   }
 
   return (
+<<<<<<< HEAD
     // eslint-disable-next-line react/jsx-no-constructed-context-values
+=======
+>>>>>>> 09291bd2dda3fae3345e809c5e2f0baa0a54cead
     <AuthContext.Provider value={{ currentUser, signUp, logIn, logOut }}>
       {children}
     </AuthContext.Provider>
