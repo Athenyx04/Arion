@@ -1,35 +1,33 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import {
-  onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
+import Loading from '../components/Loading';
 
 const AuthContext = createContext({});
 
-export const useAuth = () => useContext(AuthContext);
-
 export function AuthContextProvider({ children }) {
-  const [user, setUser] = useState({ email: null, uid: null });
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser({
-          email: user.email,
-          uid: user.uid,
-        });
-      } else {
-        setUser({ email: null, uid: null });
-      }
-    });
-    setLoading(false);
-
-    return () => unsubscribe();
-  }, []);
+  useEffect(
+    () =>
+      auth.onIdTokenChanged(async (user) => {
+        if (!user) {
+          setCurrentUser(null);
+          setLoading(false);
+          return;
+        }
+        const token = await user.getIdToken();
+        setCurrentUser(user);
+        setLoading(false);
+        console.log(token);
+      }),
+    []
+  );
 
   const signUp = (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);
@@ -38,13 +36,20 @@ export function AuthContextProvider({ children }) {
     signInWithEmailAndPassword(auth, email, password);
 
   const logOut = async () => {
-    setUser({ email: null, uid: null });
     await signOut(auth);
+    setCurrentUser(null);
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signUp, logIn, logOut }}>
-      {loading ? null : children}
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <AuthContext.Provider value={{ currentUser, signUp, logIn, logOut }}>
+      {children}
     </AuthContext.Provider>
   );
 }
+
+export const useAuth = () => useContext(AuthContext);

@@ -4,13 +4,13 @@ import { useAuth } from '../context/AuthContext';
 
 export default function ProtectedRoute({ children }) {
   const router = useRouter();
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    if (!user.uid) {
+    if (!currentUser) {
       router.push('/login');
     }
-  }, [router, user]);
+  }, [router, currentUser]);
 
-  return <div>{user ? children : null}</div>;
+  return <div>{currentUser ? children : null}</div>;
 }
