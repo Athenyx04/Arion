@@ -24,6 +24,8 @@ export default function AnimalPage() {
     if (!animalInfo) router.push('/animals');
   });
 
+  console.log(animalInfo.id);
+
   return (
     <ProtectedRoute>
       <Layout>
@@ -38,7 +40,12 @@ export default function AnimalPage() {
                 A continuación se encuentran los datos de su animal.
               </p>
             </div>
-            <Link href={`/animals/${animalInfo?.tagId}/edit`} passHref>
+            <Link
+              href={{
+                pathname: `/animals/${animalInfo?.tagId}/edit`,
+              }}
+              passHref
+            >
               <button
                 type="button"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-5"
@@ -62,7 +69,7 @@ export default function AnimalPage() {
               <p>Sexo: {animalInfo?.sex}</p>
             </div>
             <div className="">
-              <p>Fecha de nacimiento: {}</p>
+              <p>Fecha de nacimiento: {animalInfo?.formattedDoB}</p>
             </div>
             <div className="">
               <p>Parcela: {animalInfo?.plot}</p>
