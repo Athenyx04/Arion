@@ -1,15 +1,39 @@
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { parse } from 'date-fns';
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  Timestamp,
+  where,
+} from 'firebase/firestore';
 import { db } from './firebase';
 
-export const addAnimal = (tagId, owner, species, weight, name, plot) => {
+export const addAnimal = (
+  owner,
+  tagId,
+  name,
+  sex,
+  species,
+  breed,
+  dob,
+  plot,
+  sensor
+) => {
+  const parsedDateOfBirth = parse(dob, 'dd-MM-yyyy', new Date());
+  const timestampDateOfBirth = Timestamp.fromDate(parsedDateOfBirth);
+
   const docRef = addDoc(collection(db, 'animals'), {
-    tagId,
     owner,
-    species,
-    weight, // Weight must be an array to analyze progression
+    tagId,
     name,
+    sex,
+    species,
+    breed,
+    dob: timestampDateOfBirth, // Parse as date
     plot,
-    // createdAt
+    sensor,
+    createdAt: Timestamp.fromDate(new Date()),
   })
     .then(() => console.log('Document written with ID: ', docRef.id))
     .catch((err) => {
@@ -31,4 +55,16 @@ export async function fetchAnimals(user) {
       id,
     };
   });
+}
+
+export async function fetchSingleAnimal(tagId, user) {
+  const q = query(
+    collection(db, 'animals'),
+    where('tagId', '==', tagId),
+    where('owner', '==', user)
+  );
+
+  const snapshot = await getDocs(q);
+  const element = snapshot.docs.shift();
+  return element ? element.data() : null;
 }

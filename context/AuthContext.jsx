@@ -25,7 +25,6 @@ export function AuthContextProvider({ children }) {
         const token = await user.getIdToken();
         setCurrentUser(user);
         setLoading(false);
-        console.log(token);
       }),
     []
   );
